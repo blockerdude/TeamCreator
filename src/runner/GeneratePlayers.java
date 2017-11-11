@@ -1,7 +1,7 @@
 package runner;
 
 import model.GamesMissing;
-import model.Gender;
+import model.Sex;
 import model.Player;
 import model.PlayerGroup;
 
@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Class used to generate fake players, is no longer currently in use.
+ */
 public class GeneratePlayers {
 
     private Random randomNumberGenerator = new Random();
@@ -57,10 +60,6 @@ public class GeneratePlayers {
         }
         Player one = generateRandomPlayer();
         Player two = generateRandomPlayer();
-        //link them together
-        //baggage code shouldn't matter for this;
-        one.setBaggageIds(new ArrayList<String>(two.getId()));
-        two.setBaggageIds(new ArrayList<String>(one.getId()));
         players.add(one);
         players.add(two);
         return new PlayerGroup(players);
@@ -68,7 +67,7 @@ public class GeneratePlayers {
 
     private Player generateRandomPlayer() {
         int id = getId();
-        Gender gender = getGender();
+        Sex sex = getGender();
         Player player = new Player(
                 generateRandomInt(LOW_SCORE, HIGH_SCORE),
                 generateRandomInt(LOW_SCORE, HIGH_SCORE),
@@ -76,9 +75,8 @@ public class GeneratePlayers {
                 id,
                 "Player_" + id,
                 "",
-                new ArrayList<String>(),
                 GamesMissing.values()[generateRandomInt(0, 6)],
-                gender);
+                sex);
 
         return player;
     }
@@ -87,29 +85,29 @@ public class GeneratePlayers {
         return ++id;
     }
 
-    private Gender getGender() {
-        Gender gender = Gender.female;
+    private Sex getGender() {
+        Sex sex = Sex.female;
         if (generateRandomInt(0, 100) <= percentMales) {
-            gender = Gender.male;
+            sex = Sex.male;
         }
-        if(gender == Gender.male){
+        if(sex == Sex.male){
             if(numMalesLeft > 0){
                 numMalesLeft --;
-                return Gender.male;
+                return Sex.male;
             }
             else{
                 numFemalesLeft --;
-                return Gender.female;
+                return Sex.female;
             }
         }
         else{
             if(numFemalesLeft > 0){
                 numFemalesLeft --;
-                return Gender.female;
+                return Sex.female;
             }
             else{
                 numMalesLeft --;
-                return Gender.male;
+                return Sex.male;
             }
         }
     }

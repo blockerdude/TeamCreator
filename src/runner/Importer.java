@@ -1,16 +1,23 @@
 package runner;
 
+import Exceptions.PlayerCreationException;
 import model.GamesMissing;
-import model.Gender;
+import model.Sex;
 import model.Player;
 import model.PlayerGroup;
 
 import java.io.*;
 import java.util.*;
 
-import static model.Gender.female;
-import static model.Gender.male;
+import static model.Sex.female;
+import static model.Sex.male;
 
+
+/**
+ * This class parses a .csv file and reads each line as a Player object.
+ *
+ * @Author Nikhil Jain
+ */
 public class Importer {
 
     private final int NAME = 0;
@@ -20,7 +27,13 @@ public class Importer {
     private final int GENDER = 5;
     private final int BAGGAGE_ID = 6;
 
-    public List<PlayerGroup> getPlayersFromFile(String fileName){
+    /**
+     * Reads in a csv file and attempts to return a list of all valid player groups within the file.
+     *
+     * @param fileName The name of the .csv file to be read in.
+     * @return a list of all player groups within the file
+     */
+    public List<PlayerGroup> getPlayerGroupsFromFile(String fileName){
         File playerFile = new File(fileName);
         List<Player> players = new ArrayList<>();
         try {
@@ -40,8 +53,8 @@ public class Importer {
         return combinePlayersIntoGroups(players);
     }
 
-    private List<PlayerGroup> combinePlayersIntoGroups(List<Player> players) {
 
+    private List<PlayerGroup> combinePlayersIntoGroups(List<Player> players) {
         List<PlayerGroup> playerGroups = new ArrayList<>();
         Map<String, PlayerGroup> baggageMap = new HashMap<>();
 
@@ -60,7 +73,6 @@ public class Importer {
             }
         }
 
-        //add playerGroups from the map
         playerGroups.addAll(baggageMap.values());
 
         return playerGroups;
@@ -69,20 +81,22 @@ public class Importer {
 
     private Player createPlayerFromLine(String currentLine, int id) {
        String[] playerInformation = Arrays.asList(currentLine.split("\\s*,\\s*", -1)).toArray(new String[0]);
-        //TODO: find a better fix. This adds the baggage Code when its unlisted
-//        if(playerInformation.size() == 6){
-//            playerInformation.add("");
-//        }
-        Gender gender = playerInformation[GENDER].toLowerCase().equals("female") ? female : male;
+       Sex sex = playerInformation[GENDER].toLowerCase().equals("female") ? female : male;
 
-        return new Player(Integer.valueOf(playerInformation[ATHLETIISM]),
-                                    Integer.valueOf(playerInformation[THROWS]),
-                                    Integer.valueOf(playerInformation[EXPERIENCE]),
-                                    id,
-                                    playerInformation[NAME],
-                                    playerInformation[BAGGAGE_ID],
-                                    new ArrayList<String>(),
-                                    GamesMissing.zeroToTwo,
-                                    gender);
+       Player player;
+        try{
+            player = new Player(Integer.valueOf(playerInformation[ATHLETIISM]),
+                    Integer.valueOf(playerInformation[THROWS]),
+                    Integer.valueOf(playerInformation[EXPERIENCE]),
+                    id,
+                    playerInformation[NAME],
+                    playerInformation[BAGGAGE_ID],
+                    GamesMissing.zeroToTwo,
+                    sex);
+        }catch(Exception e){
+            throw new PlayerCreationException(String.format("Attempted to create a player with improper data %s", (Object[]) playerInformation));
+        }
+
+        return player;
     }
 }

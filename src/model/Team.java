@@ -1,16 +1,17 @@
 package model;
 
-import java.util.List;
-
+/**
+ * Model of a team
+ */
 public class Team {
 
     private String name;
-    private SortedArrayList<PlayerGroup> playersGroups;
+    private SortedPlayerGroupArrayList<PlayerGroup> playersGroups;
     private int desiredTeamSize;
     private int desiredNumberMales;
     private int desiredNumberFemales;
 
-    public Team(String name, SortedArrayList<PlayerGroup> playersGroups, int desiredTeamSize, int desiredNumberMales, int desiredNumberFemales) {
+    public Team(String name, SortedPlayerGroupArrayList<PlayerGroup> playersGroups, int desiredTeamSize, int desiredNumberMales, int desiredNumberFemales) {
         this.name = name;
         this.playersGroups = playersGroups;
         this.desiredTeamSize = desiredTeamSize;
@@ -21,6 +22,7 @@ public class Team {
     public void addPlayerGroup(PlayerGroup pg){
         playersGroups.add(pg);
     }
+
     public void removePlayerGroup(PlayerGroup pg){
         playersGroups.remove(pg);
 
@@ -75,11 +77,11 @@ public class Team {
         this.name = name;
     }
 
-    public SortedArrayList<PlayerGroup> getPlayersGroups() {
+    public SortedPlayerGroupArrayList<PlayerGroup> getPlayersGroups() {
         return playersGroups;
     }
 
-    public void setPlayersGroups(SortedArrayList<PlayerGroup> playersGroups) {
+    public void setPlayersGroups(SortedPlayerGroupArrayList<PlayerGroup> playersGroups) {
         this.playersGroups = playersGroups;
     }
 

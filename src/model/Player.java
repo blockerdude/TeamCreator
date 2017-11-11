@@ -1,7 +1,5 @@
 package model;
 
-import java.util.List;
-
 public class Player {
 
     private int athleticism;
@@ -10,24 +8,29 @@ public class Player {
     private int id;
     private String name;
     private String baggageCode;
-    private List<String> baggageIds;
     private GamesMissing gamesMissing;
-    private Gender gender;
+    private Sex sex;
 
-    public Player(int athleticism, int throwing, int experience, int id, String name, String baggageCode, List<String> baggageIds, GamesMissing gamesMissing, Gender gender) {
+    /**
+     * The base model of an individual player for Ultimate Frisbee.
+     * @param athleticism athletic rating on a scale, 1-7
+     * @param throwing throwing rating on a scale, 1-7
+     * @param experience experience rating on a scale, 1-7
+     * @param id unique identifier for this player
+     * @param name given name for a player
+     * @param baggageCode a baggage code given to link this player to other players
+     * @param gamesMissing the amount of games the player expects to miss
+     * @param sex the given sex of the player
+     */
+    public Player(int athleticism, int throwing, int experience, int id, String name, String baggageCode, GamesMissing gamesMissing, Sex sex) {
         this.athleticism = athleticism;
         this.throwing = throwing;
         this.experience = experience;
         this.id = id;
         this.name = name;
         this.baggageCode = baggageCode;
-        this.baggageIds = baggageIds;
         this.gamesMissing = gamesMissing;
-        this.gender = gender;
-    }
-
-    public void addBaggageId(String id){
-        baggageIds.add(id);
+        this.sex = sex;
     }
 
     public int getAthleticism() {
@@ -78,14 +81,6 @@ public class Player {
         this.baggageCode = baggageCode;
     }
 
-    public List<String> getBaggageIds() {
-        return baggageIds;
-    }
-
-    public void setBaggageIds(List<String> baggageIds) {
-        this.baggageIds = baggageIds;
-    }
-
     public GamesMissing getGamesMissing() {
         return gamesMissing;
     }
@@ -94,12 +89,12 @@ public class Player {
         this.gamesMissing = gamesMissing;
     }
 
-    public Gender getGender() {
-        return gender;
+    public Sex getSex() {
+        return sex;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public void setSex(Sex sex) {
+        this.sex = sex;
     }
 
     public int getAggregateScore(){

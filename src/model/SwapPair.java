@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * POJO that contains two playerGroups that might be swapped when working with balancing teams total points
+ */
 public class SwapPair {
 
     private PlayerGroup low;

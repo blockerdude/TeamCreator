@@ -1,10 +1,10 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static sun.audio.AudioPlayer.player;
-
+/**
+ * A model that groups players that are intended to be grouped together.
+ */
 public class PlayerGroup {
 
     private ArrayList<Player> players;
@@ -30,6 +30,9 @@ public class PlayerGroup {
         this.players.add(player);
     }
 
+    /**
+     * @return the raw aggregate score of all the players within the group.
+     */
     public int getTotalScore(){
         int score = 0;
         for (Player player: players) {
@@ -38,6 +41,9 @@ public class PlayerGroup {
         return score;
     }
 
+    /**
+     * @return the aggregate score of all of the players within the group multiplied together
+     */
     public double getMultiplicativeScore() {
         double score = 1.0;
         for(Player player : players){
@@ -51,17 +57,17 @@ public class PlayerGroup {
     }
 
     public int getNumberMales(){
-        return getGenderCount(Gender.male);
+        return getSexCount(Sex.male);
     }
 
     public int getNumberFemales(){
-        return getGenderCount(Gender.female);
+        return getSexCount(Sex.female);
     }
 
-    private int getGenderCount(Gender desiredGender){
+    private int getSexCount(Sex desiredSex){
         int count = 0;
         for (Player player: players) {
-            if(player.getGender().equals(desiredGender)){
+            if(player.getSex().equals(desiredSex)){
                 count ++;
             }
         }

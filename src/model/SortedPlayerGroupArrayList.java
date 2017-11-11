@@ -2,14 +2,18 @@ package model;
 
 import java.util.*;
 
-public class SortedArrayList<E> extends ArrayList<E> {
+/**
+ * Overloaded array list that automatically keeps playerGroups sorted
+ * @param <E> If E is not PlayerGroup, then this will act as a normal array list
+ */
+public class SortedPlayerGroupArrayList<E> extends ArrayList<E> {
 
-    public SortedArrayList(Collection<? extends E> c){
+    public SortedPlayerGroupArrayList(Collection<? extends E> c){
         super(c);
         Collections.sort(this, getComparator());
     }
 
-    public SortedArrayList(){
+    public SortedPlayerGroupArrayList(){
         super();
     }
 
@@ -21,7 +25,7 @@ public class SortedArrayList<E> extends ArrayList<E> {
     }
 
     private Comparator getComparator() {
-        Comparator comparator = new Comparator() {
+        return new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
                 if (o1 instanceof PlayerGroup && o2 instanceof PlayerGroup) {
@@ -31,6 +35,5 @@ public class SortedArrayList<E> extends ArrayList<E> {
                 }
             }
         };
-        return comparator;
     }
 }
