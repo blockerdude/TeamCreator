@@ -1,9 +1,9 @@
 package runner;
 
 import model.GamesMissing;
-import model.Sex;
 import model.Player;
 import model.PlayerGroup;
+import model.Sex;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.Random;
  */
 public class GeneratePlayers {
 
-    private Random randomNumberGenerator = new Random();
+    private final Random randomNumberGenerator = new Random();
     private final int LOW_SCORE = 1;
     private final int HIGH_SCORE = 7;
     private int id = 100;
@@ -28,18 +28,17 @@ public class GeneratePlayers {
         this.numFemalesLeft = numFemales;
         this.numMalesLeft = numMales;
         int numPlayers = numFemales + numMales;
-        this.percentMales = (double)(100 * numMales)/numPlayers;
+        this.percentMales = (double) (100 * numMales) / numPlayers;
         List<PlayerGroup> playerGroups = new ArrayList<>();
         for (int i = 0; i < numPlayers; i++) {
             PlayerGroup currentPlayerGroup;
             //roll the die to see if we create a solo player or a group
             int roll = generateRandomInt(0, 100); //TODO: move in line
-            if(roll <= percentBaggaged && (numPlayers-i >= 2)){ //create baggage
-              currentPlayerGroup = generatePlayerGroup(2);
-               i++; //addl increment for the 2nd player
-            }
-            else{ //create solo player
-            currentPlayerGroup = generatePlayerGroup(1);
+            if (roll <= percentBaggaged && (numPlayers - i >= 2)) { //create baggage
+                currentPlayerGroup = generatePlayerGroup(2);
+                i++; //addl increment for the 2nd player
+            } else { //create solo player
+                currentPlayerGroup = generatePlayerGroup(1);
             }
             playerGroups.add(currentPlayerGroup);
 
@@ -68,7 +67,8 @@ public class GeneratePlayers {
     private Player generateRandomPlayer() {
         int id = getId();
         Sex sex = getGender();
-        Player player = new Player(
+
+        return new Player(
                 generateRandomInt(LOW_SCORE, HIGH_SCORE),
                 generateRandomInt(LOW_SCORE, HIGH_SCORE),
                 generateRandomInt(LOW_SCORE, HIGH_SCORE),
@@ -77,8 +77,6 @@ public class GeneratePlayers {
                 "",
                 GamesMissing.values()[generateRandomInt(0, 6)],
                 sex);
-
-        return player;
     }
 
     private int getId() {
@@ -90,23 +88,20 @@ public class GeneratePlayers {
         if (generateRandomInt(0, 100) <= percentMales) {
             sex = Sex.male;
         }
-        if(sex == Sex.male){
-            if(numMalesLeft > 0){
-                numMalesLeft --;
+        if (sex == Sex.male) {
+            if (numMalesLeft > 0) {
+                numMalesLeft--;
                 return Sex.male;
-            }
-            else{
-                numFemalesLeft --;
+            } else {
+                numFemalesLeft--;
                 return Sex.female;
             }
-        }
-        else{
-            if(numFemalesLeft > 0){
-                numFemalesLeft --;
+        } else {
+            if (numFemalesLeft > 0) {
+                numFemalesLeft--;
                 return Sex.female;
-            }
-            else{
-                numMalesLeft --;
+            } else {
+                numMalesLeft--;
                 return Sex.male;
             }
         }

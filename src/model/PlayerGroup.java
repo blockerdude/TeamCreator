@@ -13,7 +13,7 @@ public class PlayerGroup {
         this.players = players;
     }
 
-    public PlayerGroup(Player player){
+    public PlayerGroup(Player player) {
         this.players = new ArrayList<>();
         players.add(player);
     }
@@ -26,16 +26,16 @@ public class PlayerGroup {
         this.players = players;
     }
 
-    public void addPlayer(Player player){
+    public void addPlayer(Player player) {
         this.players.add(player);
     }
 
     /**
      * @return the raw aggregate score of all the players within the group.
      */
-    public int getTotalScore(){
+    public int getTotalScore() {
         int score = 0;
-        for (Player player: players) {
+        for (Player player : players) {
             score += player.getAggregateScore();
         }
         return score;
@@ -46,38 +46,38 @@ public class PlayerGroup {
      */
     public double getMultiplicativeScore() {
         double score = 1.0;
-        for(Player player : players){
+        for (Player player : players) {
             score *= player.getAggregateScore();
         }
         return score;
     }
 
-    public int getPlayerCount(){
+    public int getPlayerCount() {
         return players.size();
     }
 
-    public int getNumberMales(){
+    public int getNumberMales() {
         return getSexCount(Sex.male);
     }
 
-    public int getNumberFemales(){
+    public int getNumberFemales() {
         return getSexCount(Sex.female);
     }
 
-    private int getSexCount(Sex desiredSex){
+    private int getSexCount(Sex desiredSex) {
         int count = 0;
-        for (Player player: players) {
-            if(player.getSex().equals(desiredSex)){
-                count ++;
+        for (Player player : players) {
+            if (player.getSex().equals(desiredSex)) {
+                count++;
             }
         }
         return count;
     }
 
-    public boolean containsPlayers(PlayerGroup other){
-        for(Player thisPlayer : players){
-            for(Player thatPlayer: other.players){
-                if(thisPlayer.equals(thatPlayer)){
+    public boolean containsPlayers(PlayerGroup other) {
+        for (Player thisPlayer : players) {
+            for (Player thatPlayer : other.players) {
+                if (thisPlayer.equals(thatPlayer)) {
                     return true;
                 }
             }

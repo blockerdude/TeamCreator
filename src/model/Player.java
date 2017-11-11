@@ -13,14 +13,15 @@ public class Player {
 
     /**
      * The base model of an individual player for Ultimate Frisbee.
-     * @param athleticism athletic rating on a scale, 1-7
-     * @param throwing throwing rating on a scale, 1-7
-     * @param experience experience rating on a scale, 1-7
-     * @param id unique identifier for this player
-     * @param name given name for a player
-     * @param baggageCode a baggage code given to link this player to other players
+     *
+     * @param athleticism  athletic rating on a scale, 1-7
+     * @param throwing     throwing rating on a scale, 1-7
+     * @param experience   experience rating on a scale, 1-7
+     * @param id           unique identifier for this player
+     * @param name         given name for a player
+     * @param baggageCode  a baggage code given to link this player to other players
      * @param gamesMissing the amount of games the player expects to miss
-     * @param sex the given sex of the player
+     * @param sex          the given sex of the player
      */
     public Player(int athleticism, int throwing, int experience, int id, String name, String baggageCode, GamesMissing gamesMissing, Sex sex) {
         this.athleticism = athleticism;
@@ -97,7 +98,7 @@ public class Player {
         this.sex = sex;
     }
 
-    public int getAggregateScore(){
+    public int getAggregateScore() {
         return athleticism + experience + throwing;
     }
 

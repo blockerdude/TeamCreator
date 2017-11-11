@@ -1,19 +1,23 @@
 package model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Overloaded array list that automatically keeps playerGroups sorted
+ *
  * @param <E> If E is not PlayerGroup, then this will act as a normal array list
  */
 public class SortedPlayerGroupArrayList<E> extends ArrayList<E> {
 
-    public SortedPlayerGroupArrayList(Collection<? extends E> c){
+    public SortedPlayerGroupArrayList(Collection<? extends E> c) {
         super(c);
         Collections.sort(this, getComparator());
     }
 
-    public SortedPlayerGroupArrayList(){
+    public SortedPlayerGroupArrayList() {
         super();
     }
 

@@ -19,50 +19,50 @@ public class Team {
         this.desiredNumberFemales = desiredNumberFemales;
     }
 
-    public void addPlayerGroup(PlayerGroup pg){
+    public void addPlayerGroup(PlayerGroup pg) {
         playersGroups.add(pg);
     }
 
-    public void removePlayerGroup(PlayerGroup pg){
+    public void removePlayerGroup(PlayerGroup pg) {
         playersGroups.remove(pg);
 
     }
 
-    public int getNumberPlayers(){
+    public int getNumberPlayers() {
         int count = 0;
-        for (PlayerGroup group: playersGroups) {
+        for (PlayerGroup group : playersGroups) {
             count += group.getPlayerCount();
         }
         return count;
     }
 
-    public int getNumberMales(){
+    public int getNumberMales() {
         int count = 0;
-        for (PlayerGroup group: playersGroups) {
+        for (PlayerGroup group : playersGroups) {
             count += group.getNumberMales();
         }
         return count;
     }
 
-    public int getNumberFemales(){
+    public int getNumberFemales() {
         int count = 0;
-        for (PlayerGroup group: playersGroups) {
+        for (PlayerGroup group : playersGroups) {
             count += group.getNumberFemales();
         }
         return count;
     }
 
-    public int getTotalScore(){
+    public int getTotalScore() {
         int count = 0;
-        for (PlayerGroup group: playersGroups) {
+        for (PlayerGroup group : playersGroups) {
             count += group.getTotalScore();
         }
         return count;
     }
 
-    public double getMultiplicativeScore(){
+    public double getMultiplicativeScore() {
         double count = 1.0;
-        for(PlayerGroup group: playersGroups){
+        for (PlayerGroup group : playersGroups) {
             count *= group.getMultiplicativeScore();
         }
         return count;

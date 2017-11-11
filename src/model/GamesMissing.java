@@ -15,13 +15,13 @@ public enum GamesMissing {
     mostWednesdays(8),
     mostThursdays(8);
 
-    private double averageGamesMissing;
+    private final double averageGamesMissing;
 
-    GamesMissing(double averageGamesMissing){
+    GamesMissing(double averageGamesMissing) {
         this.averageGamesMissing = averageGamesMissing;
     }
 
-    public double getAverageGamesMissing(){
+    public double getAverageGamesMissing() {
         return averageGamesMissing;
     }
 }
