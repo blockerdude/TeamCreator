@@ -1,5 +1,6 @@
 package runner;
 
+import Exceptions.DuplicatedPlayerException;
 import model.*;
 
 import java.util.ArrayList;
@@ -19,23 +20,23 @@ public class Main {
         Importer importer = new Importer();
         List<PlayerGroup> baggaged = new ArrayList<>();
         List<PlayerGroup> solos = new ArrayList<>();
-//        int numMalesPerTeam = 9;
-//        int numFemalesPerTeam = 7;
-//        int numTeams = 18;
-        int numMalesPerTeam = 4;
-        int numFemalesPerTeam = 0;
-        int numTeams = 2;
+        int numMalesPerTeam = 9;
+        int numFemalesPerTeam = 7;
+        int numTeams = 18;
+        //int numMalesPerTeam = 4;
+        //int numFemalesPerTeam = 0;
+        //int numTeams = 2;
 
         //List<PlayerGroup> groups = new GeneratePlayers().generatePlayerGroups(totalMales, totalFemales, 85);
-        //List<PlayerGroup> groups= importer.getPlayerGroupsFromFile("TR League Anonymous.csv");
+        List<PlayerGroup> groups= importer.getPlayerGroupsFromFile("TR League Anonymous.csv");
         //Adding two solo players to allow for all teams to have the same number of players.
         //TODO: update the logic to allow for uneven sized teams
-        //Player testPlayer1 = new Player(4, 4, 4, 998, "testPlayer1", "", GamesMissing.zeroToTwo, Sex.male);
-        //Player testPlayer2 = new Player(4, 4, 4, 998, "testPlayer2", "", GamesMissing.zeroToTwo, Sex.female);
-        //groups.add(new PlayerGroup(testPlayer1));
-        //groups.add(new PlayerGroup(testPlayer2));
+        Player testPlayer1 = new Player(4, 4, 4, 998, "testPlayer1", "", GamesMissing.zeroToTwo, Sex.male);
+        Player testPlayer2 = new Player(4, 4, 4, 998, "testPlayer2", "", GamesMissing.zeroToTwo, Sex.female);
+        groups.add(new PlayerGroup(testPlayer1));
+        groups.add(new PlayerGroup(testPlayer2));
 
-        List<PlayerGroup> groups = importer.getPlayerGroupsFromFile("testGroup.csv");
+        //List<PlayerGroup> groups = importer.getPlayerGroupsFromFile("testGroup.csv");
 
 
         //Split the player groups into baggaged and solo groups for sorting later
@@ -50,18 +51,56 @@ public class Main {
 
         List<Team> teams = instantiateTeams(numMalesPerTeam, numFemalesPerTeam, numTeams, baggaged, solos);
         teams = balanceTeamsByTotalPoints(teams);
-
-
-        //Spread sort is mostly working, with some problems, only attempt to sort by spread once for now.
-        for (int x = 0; x < numTeams - 1; x += 2) {
-            bruteForceBalanceSpread(teams.get(x), teams.get(x + 1));
-        }
+        teams = balanceTeamsBySpread(teams);
 
         checkForDuplicatedPlayer(teams);
 
         //TODO: print/dump the teams to a console/file
+        Exporter exporter = new Exporter();
+        exporter.printTeamsToFile("TestOutput.txt", teams);
 
     }
+
+    /**
+     * This algorithm will take in a list of teams and get all of the teams to be have as similar as possible total team
+     * score, which is the summation of all of the players skills (athleticism, throwing, experience)
+     *
+     * @param teams the current teams, currently required to have the same number of players, and an even number of teams
+     * @return a new list of teams in which every team is as equal as possible with all of the others
+     */
+    private static List<Team> balanceTeamsByTotalPoints(List<Team> teams) {
+        teams = orderTeamByTotalPoints(teams);
+        int currentDifference = teams.get(0).getTotalScore() - teams.get(teams.size() - 1).getTotalScore();
+        int previousDifference = 0;
+
+        while (currentDifference != previousDifference || currentDifference >= 10) {
+            for (int x = 0; x < teams.size() / 2; x++) {
+                balanceTeams(teams.get(x), teams.get(teams.size() - x - 1));
+            }
+            teams = orderTeamByTotalPoints(teams);
+            previousDifference = currentDifference;
+            currentDifference = teams.get(0).getTotalScore() - teams.get(teams.size() - 1).getTotalScore();
+        }
+        return teams;
+    }
+
+    private static List<Team> balanceTeamsBySpread(List<Team> teams) {
+        teams = orderTeamsByMultiplicativeScore(teams);
+        double currentDifference = teams.get(0).getMultiplicativeScore() / teams.get(teams.size() - 1).getMultiplicativeScore();
+        double previousDifference = -1;
+
+        while (currentDifference != previousDifference) {
+            System.out.println("current dif " + currentDifference);
+            for (int x = 0; x < teams.size()/2; x += 2) {
+                bruteForceBalanceSpread(teams.get(x), teams.get(teams.size() -x -1));
+            }
+            teams = orderTeamsByMultiplicativeScore(teams);
+            previousDifference = currentDifference;
+            currentDifference = teams.get(0).getMultiplicativeScore() / teams.get(teams.size() - 1).getMultiplicativeScore();
+        }
+        return teams;
+    }
+
 
     /**
      * The method checks to see if any players are being used in multiple teams,
@@ -78,7 +117,7 @@ public class Main {
                 for (Player player : playerGroup.getPlayers()) {
                     if (players.containsKey(player.getName())) {
                         //huge problem
-                        System.out.println(player.getName() + " is duplicated");
+                        throw new DuplicatedPlayerException(player.getName() + " has been duplicated");
                     } else {
                         players.put(player.getName(), player.getId());
                     }
@@ -87,27 +126,6 @@ public class Main {
         }
     }
 
-    /**
-     * This algorithm will take in a list of teams and get all of the teams to be have as similar as possible total team
-     * score, which is the summation of all of the players skills (athleticism, throwing, experience)
-     *
-     * @param teams the current teams, currently required to have the same number of players, and an even number of teams
-     * @return a new list of teams in which every team is as equal as possible with all of the others
-     */
-    private static List<Team> balanceTeamsByTotalPoints(List<Team> teams) {
-        int currentDifference = teams.get(0).getTotalScore() - teams.get(teams.size() - 1).getTotalScore();
-        int previousDifference = 0;
-
-        while (currentDifference != previousDifference || currentDifference >= 10) {
-            for (int x = 0; x < teams.size() / 2; x++) {
-                balanceTeams(teams.get(x), teams.get(teams.size() - x - 1));
-            }
-            teams = orderTeamByTotalPoints(teams);
-            previousDifference = currentDifference;
-            currentDifference = teams.get(0).getTotalScore() - teams.get(teams.size() - 1).getTotalScore();
-        }
-        return teams;
-    }
 
     /**
      * This method will create the desired number of teams and put the correct number of males and females into each team
@@ -223,6 +241,31 @@ public class Main {
     }
 
     /**
+     * Order the given teams from highest to lowest based on the teams multiplicative score
+     *
+     * @param teams The list of teams to sort
+     * @return the sorted list of teams
+     */
+    private static List<Team> orderTeamsByMultiplicativeScore(List<Team> teams) {
+        ArrayList<Team> sortedList = new ArrayList<>();
+        while (teams.size() != 0) {
+            double largest = 0;
+            Team curTeam;
+            int largestPosition = -1;
+            for (int x = 0; x < teams.size(); x++) {
+                curTeam = teams.get(x);
+                if (curTeam.getTotalScore() > largest) {
+                    largest = curTeam.getMultiplicativeScore();
+                    largestPosition = x;
+                }
+            }
+            sortedList.add(teams.remove(largestPosition));
+        }
+
+        return sortedList;
+    }
+
+    /**
      * This is the actual process to even out two given teams
      *
      * @param high the team with more points
@@ -306,10 +349,7 @@ public class Main {
      * @param two the second team
      */
     private static void bruteForceBalanceSpread(Team one, Team two) {
-        System.out.println("Doing " + one.getName() + " and " + two.getName());
-
         double spread = getSpread(one, two);
-        System.out.println("Spread before " + spread);
 
         //TODO: make both of these dependent on their own team size, they don't have to be the same size
         int halfTeamSize = one.getNumberPlayers() / 2;
@@ -355,13 +395,10 @@ public class Main {
         }
 
         if (optimalToSwitchFrom1 == null) {
-            System.out.println("Spread after switching 0 players " + optimalSpread);
             return;
         }
         //TODO: change this to generate a list of playerGroups
-        int numSwitched = 0;
         for (PlayerGroup pg : optimalToSwitchFrom1) {
-            numSwitched += pg.getPlayerCount();
             one.removePlayerGroup(pg);
             two.addPlayerGroup(pg);
         }
@@ -369,9 +406,6 @@ public class Main {
             one.addPlayerGroup(pg);
             two.removePlayerGroup(pg);
         }
-
-
-        System.out.println("Spread after switching " + numSwitched + " players " + optimalSpread);
 
     }
 
