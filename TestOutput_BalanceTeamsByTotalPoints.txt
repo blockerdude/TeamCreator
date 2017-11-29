@@ -1,0 +1,360 @@
+Team Team_17
+	Total Points: 202
+	Multiplicative Points: 3.27921415151616E17
+		Lillie Cruz : 11
+		Leticia Santos : 11
+		Brittany Gilbert : 12
+		Richard Jackson : 12
+		Janie Wood : 13
+		Patrick Willis : 18
+		Don Robinson : 11
+		Jermaine Larson : 10
+		Alexander Harper : 13
+		Cornelius Weaver : 10
+		Clinton Frazier : 10
+		Miguel Douglas : 13
+		Johnny Pittman : 13
+		Joyce Fox : 13
+		Flora Dawson : 16
+		Lorene Green : 16
+
+Team Team_7
+	Total Points: 202
+	Multiplicative Points: 2.44158824448E17
+		Lorraine Marshall : 8
+		Antoinette Bell : 10
+		Gary Watkins : 16
+		Jordan May : 16
+		Carolyn Reynolds : 10
+		Jimmy Carr : 8
+		Barbara Murray : 10
+		Levi Francis : 10
+		Donnie Ortega : 10
+		Oscar Lambert : 16
+		Darrel Patrick : 16
+		Lynn Ball : 11
+		Allan Norton : 15
+		Patti Glover : 14
+		Bennie Montgomery : 18
+		Misty Bowers : 14
+
+Team Team_10
+	Total Points: 202
+	Multiplicative Points: 2.9754790281216E17
+		Jana Abbott : 8
+		Diana Ellis : 10
+		Rene Parks : 10
+		Alejandro Manning : 14
+		Alice O'Brien : 11
+		Grady Baker : 10
+		Evelyn Gordon : 12
+		Sean Harris : 11
+		Darrel Rose : 11
+		Lonnie Jones : 13
+		Juanita Byrd : 15
+		Merle Ellis : 14
+		Edna Ingram : 14
+		Loren Brock : 17
+		Kyle Sullivan : 16
+		Marsha Kelley : 16
+
+Team Team_2
+	Total Points: 202
+	Multiplicative Points: 2.70657209991168E17
+		Jacqueline Norton : 15
+		Ellis Sanders : 16
+		Julie Douglas : 16
+		Anthony Byrd : 18
+		Jeannette Russell : 9
+		Tom Powers : 11
+		Everett Perez : 14
+		Mack Hernandez : 7
+		Alyssa Moss : 11
+		Ira Miller : 12
+		Erma Rodriquez : 10
+		Tyler Lawrence : 14
+		Adam Gutierrez : 14
+		Lora Hunter : 10
+		Delores Jimenez : 13
+		Oscar Flowers : 12
+
+Team Team_14
+	Total Points: 202
+	Multiplicative Points: 3.032818837880832E17
+		Samantha Williamson : 10
+		testPlayer2 : 12
+		Joanna Bowman : 13
+		Ramon Price : 14
+		Shawn Duncan : 14
+		Dennis Shelton : 14
+		Herman Cummings : 12
+		Krystal Hopkins : 8
+		Carol Cain : 9
+		Kent Howell : 14
+		Daniel Davis : 13
+		Johanna Buchanan : 10
+		Amanda Valdez : 16
+		Benny Gibson : 11
+		George Roberson : 16
+		Jeffrey Gray : 16
+
+Team Team_1
+	Total Points: 202
+	Multiplicative Points: 3.1486806134784E17
+		Elisa Hill : 12
+		Myron Lyons : 14
+		Maurice Butler : 15
+		Louis Rios : 16
+		Clay Powell : 9
+		Mandy Ramos : 11
+		Pearl Moore : 10
+		Rick Porter : 11
+		Doreen Copeland : 10
+		Ernest Huff : 13
+		Ken Thornton : 12
+		Wanda Buchanan : 13
+		Caroline Bates : 10
+		Clifford Harrison : 16
+		Maria Sutton : 13
+		Travis Cohen : 17
+
+Team Team_0
+	Total Points: 202
+	Multiplicative Points: 2.550431296917504E17
+		Loren Mccormick : 11
+		Camille Clarke : 12
+		Laura Gonzalez : 8
+		Stuart Cooper : 6
+		Julian Ramsey : 15
+		Keith Berry : 15
+		Kellie Peterson : 11
+		Scott Hodges : 12
+		Doreen Kelly : 12
+		Kevin Mckenzie : 13
+		Bethany Morton : 14
+		Joey Bowman : 12
+		Isaac Mills : 13
+		Lloyd George : 13
+		Carole Logan : 18
+		Dolores Armstrong : 17
+
+Team Team_5
+	Total Points: 202
+	Multiplicative Points: 2.62161586817335296E17
+		testPlayer1 : 12
+		Jaime Gross : 12
+		Julio Lynch : 12
+		Troy Colon : 13
+		Bessie Welch : 8
+		Melvin Terry : 8
+		Debbie Banks : 7
+		Mark Jennings : 12
+		Genevieve Rhodes : 14
+		Stephanie Lyons : 14
+		Harry Maxwell : 16
+		Lynette Wright : 13
+		Dewey Nichols : 13
+		Sandra Christensen : 16
+		Lillian Wheeler : 16
+		Ramiro Graves : 16
+
+Team Team_11
+	Total Points: 202
+	Multiplicative Points: 3.18310974072E17
+		Brandy Collins : 10
+		Willard Collins : 12
+		Francisco Holmes : 13
+		Zachary Wong : 13
+		Julian Walters : 15
+		Raul Oliver : 15
+		Edith Oliver : 7
+		Mitchell Mendez : 12
+		Ollie Nelson : 13
+		Shaun Sullivan : 10
+		Alicia Wood : 12
+		Rachael Sanchez : 13
+		Ora Fowler : 13
+		Tyrone Taylor : 15
+		Gordon Cunningham : 14
+		Nancy Newman : 15
+
+Team Team_15
+	Total Points: 202
+	Multiplicative Points: 3.18988854632448E17
+		Curtis Spencer : 14
+		Terrance Dennis : 15
+		Andrea Higgins : 11
+		Clyde Hines : 11
+		Bradley Newman : 12
+		Hattie Goodwin : 11
+		Ollie Coleman : 9
+		Ruben Bryant : 14
+		Lance Underwood : 9
+		Melanie Bailey : 16
+		Brittany Greer : 13
+		Shaun Wade : 12
+		Freddie Hill : 10
+		Nellie Hernandez : 16
+		Melody Gray : 14
+		Ron Newman : 15
+
+Team Team_9
+	Total Points: 202
+	Multiplicative Points: 2.80471900520448E17
+		Paulette Osborne : 12
+		Kristy Fletcher : 12
+		Sylvester Griffin : 13
+		Jeremy Poole : 18
+		Billy Weaver : 8
+		Jerald Freeman : 12
+		Maggie Graves : 12
+		Marty Chapman : 10
+		Gerard Jenkins : 8
+		Kathleen Watson : 14
+		Andres Schwartz : 15
+		Traci Watkins : 10
+		Bernice Henry : 12
+		Ed Hall : 14
+		Meredith Sharp : 16
+		Wilbert King : 16
+
+Team Team_4
+	Total Points: 201
+	Multiplicative Points: 2.6307745538899968E17
+		Sam Curry : 11
+		Glen Dean : 11
+		Harvey Wagner : 12
+		Guillermo Gibbs : 12
+		Cameron Howard : 16
+		Marcus Wallace : 16
+		Erik Neal : 17
+		Opal Rose : 13
+		Sally Fitzgerald : 9
+		Jessica Palmer : 16
+		Pam Garza : 9
+		Bryan Hopkins : 16
+		Ellen Wise : 9
+		Kristina Lee : 13
+		Lynne Gutierrez : 11
+		Rex Ray : 10
+
+Team Team_8
+	Total Points: 201
+	Multiplicative Points: 1.85371881357312E17
+		Bruce Cruz : 8
+		Ora Herrera : 9
+		Louise Williamson : 10
+		Agnes Schwartz : 8
+		Brent Sherman : 8
+		Gilbert Farmer : 17
+		Alton Page : 12
+		Megan Tucker : 9
+		Jane Fuller : 9
+		Luis James : 17
+		Bennie Walsh : 16
+		Francis Wolfe : 15
+		Hazel Conner : 13
+		Jerald Conner : 18
+		Carl Edwards : 15
+		Julius Lyons : 17
+
+Team Team_6
+	Total Points: 201
+	Multiplicative Points: 3.0298877874929664E17
+		Lamar Hunter : 11
+		Fredrick Gray : 16
+		Pedro Carlson : 12
+		Rachael Burgess : 8
+		Devin Stevens : 11
+		Sonia Vargas : 12
+		Kristin Meyer : 11
+		Marcos Welch : 12
+		Leona Hart : 12
+		Preston Owens : 13
+		Erin Mcdaniel : 11
+		Roland Mack : 14
+		Delbert Welch : 12
+		Tomas Davis : 15
+		Angel Vaughn : 14
+		Willie Cobb : 17
+
+Team Team_12
+	Total Points: 201
+	Multiplicative Points: 1.9686819446784E17
+		Warren Hardy : 5
+		Henry Banks : 12
+		Terrance Phillips : 12
+		Louis Drake : 18
+		Diane Luna : 10
+		Jimmie Hudson : 9
+		Blake Chavez : 12
+		Harriet Warner : 10
+		Calvin Austin : 12
+		Victoria Romero : 12
+		Candice Roberson : 14
+		Leo Johnson : 12
+		Iris Tran : 15
+		Rodney Montgomery : 12
+		Margarita Weaver : 19
+		Winifred Castillo : 17
+
+Team Team_16
+	Total Points: 201
+	Multiplicative Points: 2.97995041124352E17
+		Janet Ward : 11
+		Ed Osborne : 11
+		Kathryn Guerrero : 13
+		Sonja Manning : 16
+		Bert Palmer : 12
+		Cheryl Ortega : 8
+		Delbert Todd : 11
+		Olive Moran : 11
+		Jason Mcgee : 11
+		Nathan Nunez : 12
+		Cecil Rodgers : 15
+		Nathaniel Joseph : 11
+		Hannah Mckenzie : 15
+		Kim Moss : 13
+		Gerard King : 16
+		Rosie Brock : 15
+
+Team Team_13
+	Total Points: 201
+	Multiplicative Points: 2.8368203415552E17
+		Pedro Abbott : 10
+		Alvin Luna : 10
+		Robin Castro : 11
+		Billy West : 11
+		Jackie Garcia : 12
+		Vanessa Pope : 8
+		Clinton Collins : 10
+		Lawrence Barton : 13
+		Olivia Gibson : 12
+		Shannon Harrison : 14
+		Daisy Figueroa : 15
+		Salvador Jordan : 13
+		Cesar Clark : 16
+		Lindsey Beck : 14
+		Jenna Mccormick : 16
+		Wendell Campbell : 16
+
+Team Team_3
+	Total Points: 201
+	Multiplicative Points: 3.2922699169932E17
+		Miriam Dean : 9
+		Frederick Murphy : 11
+		Wayne Tyler : 11
+		Don Briggs : 15
+		Calvin Munoz : 12
+		Marta Gomez : 11
+		Dennis Carroll : 13
+		Ebony Quinn : 11
+		Sergio Love : 13
+		Silvia Norris : 12
+		Edwin Reynolds : 15
+		Marguerite Spencer : 12
+		Kelvin Andrews : 13
+		Mamie Newman : 15
+		Lee Hawkins : 15
+		Rita Welch : 13
+

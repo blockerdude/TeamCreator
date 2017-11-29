@@ -66,7 +66,10 @@ public class Team {
             count *= group.getMultiplicativeScore();
         }
         return count;
+    }
 
+    public double getAveragePointsPerPlayer() {
+        return (double)getTotalScore()/(double)getNumberPlayers();
     }
 
     public String getName() {

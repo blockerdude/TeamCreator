@@ -20,6 +20,7 @@ public class Exporter {
                 stringBuilder.append("Team ").append(team.getName()).append("\n");
                 stringBuilder.append("\tTotal Points: ").append(team.getTotalScore()).append("\n");
                 stringBuilder.append("\tMultiplicative Points: ").append(team.getMultiplicativeScore()).append("\n");
+                stringBuilder.append("\tAverage Points Per Player: ").append(team.getAveragePointsPerPlayer()).append("\n");
                 for(PlayerGroup playerGroup: team.getPlayersGroups()){
                     for(Player player : playerGroup.getPlayers()){
                         stringBuilder.append("\t\t").append(player.getName());
