@@ -23,17 +23,8 @@ public class Main {
         int numMalesPerTeam = 9;
         int numFemalesPerTeam = 7;
         int numTeams = 18;
-//        int numMalesPerTeam = 5;
-//        int numFemalesPerTeam = 0;
-//        int numTeams = 2;
-//        List<PlayerGroup> groups = importer.getPlayerGroupsFromFile("testGroup.csv");
-
-        //List<PlayerGroup> groups = new GeneratePlayers().generatePlayerGroups(totalMales, totalFemales, 85);
-
 
         List<PlayerGroup> groups= importer.getPlayerGroupsFromFile("TR League Anonymous.csv");
-
-
 
         //Split the player groups into baggaged and solo groups for sorting later
         //TODO: update the distribution to not require different sized sorting
@@ -47,25 +38,17 @@ public class Main {
 
         List<Team> teams = instantiateTeams(numMalesPerTeam, numFemalesPerTeam, numTeams, baggaged, solos);
 
-        PlayerGroup temp0 = teams.get(0).getPlayersGroups().remove(3);
-        PlayerGroup temp1 = teams.get(1).getPlayersGroups().remove(2);
-        teams.get(0).getPlayersGroups().add(temp1);
-        teams.get(1).getPlayersGroups().add(temp0);
-
-
         teams = balanceTeamsByAveragePointsPerPlayer(teams);
-        //teams = balanceTeamsByTotalPoints(teams);
         teams = balanceTeamsBySpread(teams);
 
         checkForDuplicatedPlayer(teams);
 
-        //TODO: print/dump the teams to a console/file
+        teams = orderTeamByAveragePointsPerPlayer(teams);
         Exporter exporter = new Exporter();
         exporter.printTeamsToFile("TestOutput.txt", teams);
-
     }
 
-    public static List<Team> balanceTeamsByAveragePointsPerPlayer(List<Team> teams){
+    private static List<Team> balanceTeamsByAveragePointsPerPlayer(List<Team> teams){
         teams = orderTeamByAveragePointsPerPlayer(teams);
         double currentDifference = teams.get(0).getAveragePointsPerPlayer() - teams.get(teams.size() - 1).getAveragePointsPerPlayer();
         double previousDifference = 0;
@@ -81,29 +64,6 @@ public class Main {
         return teams;
     }
 
-    /**
-     * This algorithm will take in a list of teams and get all of the teams to be have as similar as possible total team
-     * score, which is the summation of all of the players skills (athleticism, throwing, experience)
-     *
-     * @param teams the current teams, currently required to have the same number of players
-     * @return a new list of teams in which every team is as equal as possible with all of the others
-     */
-    private static List<Team> balanceTeamsByTotalPoints(List<Team> teams) {
-        teams = orderTeamByTotalPoints(teams);
-        int currentDifference = teams.get(0).getTotalScore() - teams.get(teams.size() - 1).getTotalScore();
-        int previousDifference = 0;
-
-        while (currentDifference != previousDifference || currentDifference >= 10) {
-            for (int x = 0; x < teams.size() / 2; x++) {
-                balanceTwoTeamsByTotalPoints(teams.get(x), teams.get(teams.size() - x - 1));
-            }
-            teams = orderTeamByTotalPoints(teams);
-            previousDifference = currentDifference;
-            currentDifference = teams.get(0).getTotalScore() - teams.get(teams.size() - 1).getTotalScore();
-        }
-        return teams;
-    }
-
     private static List<Team> balanceTeamsBySpread(List<Team> teams) {
         teams = orderTeamsByMultiplicativeScore(teams);
         double currentDifference = teams.get(0).getMultiplicativeScore() / teams.get(teams.size() - 1).getMultiplicativeScore();
@@ -111,7 +71,7 @@ public class Main {
 
         while (currentDifference != previousDifference) {
             for (int x = 0; x < teams.size()/2; x += 2) {
-                bruteForceBalanceSpread(teams.get(x), teams.get(teams.size() -x -1));
+                bruteForceBalanceSpread(teams.get(x), teams.get(teams.size() - x - 1));
             }
             teams = orderTeamsByMultiplicativeScore(teams);
             previousDifference = currentDifference;
@@ -119,7 +79,6 @@ public class Main {
         }
         return teams;
     }
-
 
     /**
      * The method checks to see if any players are being used in multiple teams,
@@ -145,7 +104,6 @@ public class Main {
         }
     }
 
-
     /**
      * This method will create the desired number of teams and put the correct number of males and females into each team
      * while still respecting the baggage requirements
@@ -166,7 +124,6 @@ public class Main {
             Team team = new Team("Team_" + i, new SortedPlayerGroupArrayList<PlayerGroup>(), numPlayersPerTeam, numMalesPerTeam, numFemalesPerTeam);
             teams.add(team);
         }
-
 
         //snake the baggage and solos into the teams
         while (baggaged.size() != 0) {
@@ -248,33 +205,9 @@ public class Main {
             int largestPosition = -1;
             for (int x = 0; x < teams.size(); x++) {
                 curTeam = teams.get(x);
-                if (curTeam.getAveragePointsPerPlayer() > largestAveragePPP) {
-                    largestAveragePPP = curTeam.getTotalScore();
-                    largestPosition = x;
-                }
-            }
-            sortedList.add(teams.remove(largestPosition));
-        }
-
-        return sortedList;
-    }
-
-    /**
-     * Order the given teams from highest to lowest based on the teams aggregate score
-     *
-     * @param teams The list of teams to sort
-     * @return the sorted list of teams
-     */
-    private static List<Team> orderTeamByTotalPoints(List<Team> teams) {
-        ArrayList<Team> sortedList = new ArrayList<>();
-        while (teams.size() != 0) {
-            int largest = 0;
-            Team curTeam;
-            int largestPosition = -1;
-            for (int x = 0; x < teams.size(); x++) {
-                curTeam = teams.get(x);
-                if (curTeam.getTotalScore() > largest) {
-                    largest = curTeam.getTotalScore();
+                double curTeamAveragePoints = curTeam.getAveragePointsPerPlayer();
+                if (curTeamAveragePoints > largestAveragePPP) {
+                    largestAveragePPP = curTeamAveragePoints;
                     largestPosition = x;
                 }
             }
@@ -298,8 +231,16 @@ public class Main {
             int largestPosition = -1;
             for (int x = 0; x < teams.size(); x++) {
                 curTeam = teams.get(x);
-                if (curTeam.getTotalScore() > largest) {
-                    largest = curTeam.getMultiplicativeScore();
+                double multiplicativeScore = curTeam.getMultiplicativeScore();
+
+                //update the multiplicative score based on the total number of players
+                double averagePts = curTeam.getAveragePointsPerPlayer();
+                for(int y=0; y<(curTeam.getNumberPlayers() - curTeam.getDesiredTeamSize()); y++){
+                    multiplicativeScore *= averagePts;
+                }
+
+                if (multiplicativeScore > largest) {
+                    largest = multiplicativeScore;
                     largestPosition = x;
                 }
             }
@@ -361,7 +302,7 @@ public class Main {
             return; //there are no swaps to do
         }
         int lastSwapValue = swapList.get(swapList.size() - 1).getDifference();
-        if (Math.abs(runningDifference - targetDifference) > Math.abs(runningDifference - lastSwapValue - targetDifference)) {
+        if (swapList.size() != 1 && Math.abs(runningDifference - targetDifference) > Math.abs(runningDifference - lastSwapValue - targetDifference)) {
             //taking out the last value is better
             swapList.remove(swapList.size() - 1);
         }
@@ -391,81 +332,6 @@ public class Main {
         double highDifference = Math.abs(highTeamEval - high.getTotalScore());
         double lowDifference = Math.abs(lowTeamEval - low.getTotalScore());
         return Math.min(highDifference, lowDifference);
-    }
-
-    /**
-     * This is the actual process to even out two given teams
-     *
-     * @param high the team with more points
-     * @param low  the team with fewer points
-     */
-    private static void balanceTwoTeamsByTotalPoints(Team high, Team low) {
-        int targetDifference = high.getTotalScore() - low.getTotalScore();
-        int maxDifference = targetDifference * 2 - 2;
-        int minDifference = 2;
-        int runningDifference = 0;
-        ArrayList<SwapPair> swapList = new ArrayList<>();
-
-
-        boolean[] pgInUse = new boolean[high.getNumberPlayers()];
-        //Skipping sorting for now, just find a swap that is less than max
-
-        PlayerGroup currentHighPlayerGroup, currentLowPlayerGroup;
-        int rawDifference, calculatedDifference;
-        for (int x = 0; x < low.getPlayersGroups().size(); x++) {
-            currentLowPlayerGroup = low.getPlayersGroups().get(x);
-            for (int y = 0; y < high.getPlayersGroups().size(); y++) {
-                if (pgInUse[y]) {
-                    continue; //we are already using this element
-                }
-                currentHighPlayerGroup = high.getPlayersGroups().get(y);
-                if (currentHighPlayerGroup.getPlayerCount() != currentLowPlayerGroup.getPlayerCount()) {
-                    continue; //different number of players between groups, don't mix them together
-                }
-                if (currentHighPlayerGroup.getNumberMales() != currentLowPlayerGroup.getNumberMales()) {
-                    continue; //different composition in sex ratio
-                }
-                if (currentHighPlayerGroup.getNumberFemales() != currentLowPlayerGroup.getNumberFemales()) {
-                    continue; //different composition in sex ratio
-                }
-                rawDifference = currentHighPlayerGroup.getTotalScore() - currentLowPlayerGroup.getTotalScore();
-                calculatedDifference = rawDifference * 2;
-                if (calculatedDifference >= minDifference && calculatedDifference <= maxDifference) {
-                    //add to swap map
-                    swapList.add(new SwapPair(currentLowPlayerGroup, currentHighPlayerGroup, calculatedDifference));
-                    //update in use list
-                    pgInUse[y] = true;
-                    //update the running value
-                    runningDifference += calculatedDifference;
-
-                    //for now quitting inner loop after one success, in the future will continue on better logic
-                    break;
-                }
-            }
-            //Only break when we have enough points to eclipse our target difference
-            if (runningDifference >= targetDifference)
-                break;
-        }
-
-        if (swapList.isEmpty()) {
-            return; //there are no swaps to do
-        }
-        //We may have more than one swap, need to determine if the last swap added in made us closer or further from
-        //our target difference, this logic is very simple and should be changed to be more robust
-        int lastSwapValue = swapList.get(swapList.size() - 1).getDifference();
-        if (Math.abs(runningDifference - targetDifference) > Math.abs(runningDifference - lastSwapValue - targetDifference)) {
-            //taking out the last value is better
-            swapList.remove(swapList.size() - 1);
-        }
-
-        //make the swaps
-        for (SwapPair swapPair : swapList) {
-            low.removePlayerGroup(swapPair.getLow());
-            high.addPlayerGroup(swapPair.getLow());
-
-            low.addPlayerGroup(swapPair.getHigh());
-            high.removePlayerGroup(swapPair.getHigh());
-        }
     }
 
     /**
@@ -729,6 +595,5 @@ public class Main {
             }
         }
     }
-
 
 }
