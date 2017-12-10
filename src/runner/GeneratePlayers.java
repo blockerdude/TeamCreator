@@ -84,25 +84,25 @@ public class GeneratePlayers {
     }
 
     private Sex getGender() {
-        Sex sex = Sex.female;
+        Sex sex = Sex.Female;
         if (generateRandomInt(0, 100) <= percentMales) {
-            sex = Sex.male;
+            sex = Sex.Male;
         }
-        if (sex == Sex.male) {
+        if (sex == Sex.Male) {
             if (numMalesLeft > 0) {
                 numMalesLeft--;
-                return Sex.male;
+                return Sex.Male;
             } else {
                 numFemalesLeft--;
-                return Sex.female;
+                return Sex.Female;
             }
         } else {
             if (numFemalesLeft > 0) {
                 numFemalesLeft--;
-                return Sex.female;
+                return Sex.Female;
             } else {
                 numMalesLeft--;
-                return Sex.male;
+                return Sex.Male;
             }
         }
     }

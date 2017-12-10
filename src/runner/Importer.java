@@ -1,10 +1,7 @@
 package runner;
 
 import Exceptions.PlayerCreationException;
-import model.GamesMissing;
-import model.Player;
-import model.PlayerGroup;
-import model.Sex;
+import model.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,8 +9,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-import static model.Sex.female;
-import static model.Sex.male;
+import static model.Sex.Female;
+import static model.Sex.Male;
 
 
 /**
@@ -53,7 +50,6 @@ public class Importer {
         return combinePlayersIntoGroups(players);
     }
 
-
     private List<PlayerGroup> combinePlayersIntoGroups(List<Player> players) {
         List<PlayerGroup> playerGroups = new ArrayList<>();
         Map<String, PlayerGroup> baggageMap = new HashMap<>();
@@ -79,7 +75,7 @@ public class Importer {
 
     private Player createPlayerFromLine(String currentLine, int id) {
         String[] playerInformation = Arrays.asList(currentLine.split("\\s*,\\s*", -1)).toArray(new String[0]);
-        Sex sex = playerInformation[GENDER].toLowerCase().equals("female") ? female : male;
+        Sex sex = playerInformation[GENDER].toLowerCase().equals("female") ? Female : Male;
 
         Player player;
         try {

@@ -17,6 +17,10 @@ public class Main {
 
 
     public static void main(String args[]) {
+        normalTestRun();
+    }
+
+    private static void normalTestRun() {
         Importer importer = new Importer();
         List<PlayerGroup> baggaged = new ArrayList<>();
         List<PlayerGroup> solos = new ArrayList<>();
@@ -24,7 +28,7 @@ public class Main {
         int numFemalesPerTeam = 7;
         int numTeams = 18;
 
-        List<PlayerGroup> groups= importer.getPlayerGroupsFromFile("TR League Anonymous.csv");
+        List<PlayerGroup> groups = importer.getPlayerGroupsFromFile("TR League Anonymous.csv");
 
         //Split the player groups into baggaged and solo groups for sorting later
         //TODO: update the distribution to not require different sized sorting
@@ -43,12 +47,18 @@ public class Main {
 
         checkForDuplicatedPlayer(teams);
 
-        teams = orderTeamByAveragePointsPerPlayer(teams);
+        teams = orderTeamsByMultiplicativeScore(teams);
         Exporter exporter = new Exporter();
         exporter.printTeamsToFile("TestOutput.txt", teams);
     }
 
-    private static List<Team> balanceTeamsByAveragePointsPerPlayer(List<Team> teams){
+    private static Team createTeamFromFile(String fileName, int malesPerTeam, int femalesPerTeam, String name) {
+        Importer importer = new Importer();
+        List<PlayerGroup> playerGroupsFromFile = importer.getPlayerGroupsFromFile(fileName);
+        return new Team(name, new SortedPlayerGroupArrayList<>(playerGroupsFromFile), malesPerTeam + femalesPerTeam, malesPerTeam, femalesPerTeam);
+    }
+
+    private static List<Team> balanceTeamsByAveragePointsPerPlayer(List<Team> teams) {
         teams = orderTeamByAveragePointsPerPlayer(teams);
         double currentDifference = teams.get(0).getAveragePointsPerPlayer() - teams.get(teams.size() - 1).getAveragePointsPerPlayer();
         double previousDifference = 0;
@@ -66,18 +76,43 @@ public class Main {
 
     private static List<Team> balanceTeamsBySpread(List<Team> teams) {
         teams = orderTeamsByMultiplicativeScore(teams);
-        double currentDifference = teams.get(0).getMultiplicativeScore() / teams.get(teams.size() - 1).getMultiplicativeScore();
+        double currentDifference = getNormalizedMultiplicativeScore(teams.get(0))/ getNormalizedMultiplicativeScore(teams.get(teams.size() - 1));
         double previousDifference = -1;
 
         while (currentDifference != previousDifference) {
-            for (int x = 0; x < teams.size()/2; x += 2) {
+            for (int x = 0; x < teams.size() / 2; x += 2) {
                 bruteForceBalanceSpread(teams.get(x), teams.get(teams.size() - x - 1));
             }
             teams = orderTeamsByMultiplicativeScore(teams);
             previousDifference = currentDifference;
-            currentDifference = teams.get(0).getMultiplicativeScore() / teams.get(teams.size() - 1).getMultiplicativeScore();
+            currentDifference = getNormalizedMultiplicativeScore(teams.get(0))/ getNormalizedMultiplicativeScore(teams.get(teams.size() - 1));
         }
+
+        //We may have stopped at a local maximum,
+//
+//        previousDifference = -1;
+//        while (currentDifference != previousDifference) {
+//            for (int x = 0; x < teams.size() / 2; x += 2) {
+//                bruteForceBalanceSpread(teams.get(x), teams.get(teams.size() - x - 1));
+//            }
+//            teams = orderTeamByAveragePointsPerPlayer(teams);
+//            previousDifference = currentDifference;
+//            currentDifference = teams.get(0).getMultiplicativeScore() / teams.get(teams.size() - 1).getMultiplicativeScore();
+//        }
+
         return teams;
+    }
+
+
+    private static double getNormalizedMultiplicativeScore(Team team){
+        double multiplicativeScore = team.getMultiplicativeScore();
+
+        //update the multiplicative score based on the total number of players
+        double averagePts = team.getAveragePointsPerPlayer();
+        for (int y = 0; y < (team.getDesiredTeamSize() - team.getNumberPlayers()); y++) {
+            multiplicativeScore *= averagePts;
+        }
+        return multiplicativeScore;
     }
 
     /**
@@ -194,10 +229,11 @@ public class Main {
     /**
      * Order the given teams from highest to lowest based on the teams average points per player
      * Currently an O(N^2) algorithm that can be improved with any log(n) sort.
+     *
      * @param teams the list of teams to sort
      * @return the sorted list of teams
      */
-    private static List<Team> orderTeamByAveragePointsPerPlayer(List<Team> teams){
+    private static List<Team> orderTeamByAveragePointsPerPlayer(List<Team> teams) {
         ArrayList<Team> sortedList = new ArrayList<>();
         while (teams.size() != 0) {
             double largestAveragePPP = 0.0;
@@ -231,13 +267,7 @@ public class Main {
             int largestPosition = -1;
             for (int x = 0; x < teams.size(); x++) {
                 curTeam = teams.get(x);
-                double multiplicativeScore = curTeam.getMultiplicativeScore();
-
-                //update the multiplicative score based on the total number of players
-                double averagePts = curTeam.getAveragePointsPerPlayer();
-                for(int y=0; y<(curTeam.getNumberPlayers() - curTeam.getDesiredTeamSize()); y++){
-                    multiplicativeScore *= averagePts;
-                }
+                double multiplicativeScore = getNormalizedMultiplicativeScore(curTeam);
 
                 if (multiplicativeScore > largest) {
                     largest = multiplicativeScore;
@@ -252,7 +282,7 @@ public class Main {
 
 
     private static void balanceTwoTeamsByAveragePoints(Team high, Team low) {
-        double targetDifference = (high.getAveragePointsPerPlayer() - low.getAveragePointsPerPlayer())*2;
+        double targetDifference = (high.getAveragePointsPerPlayer() - low.getAveragePointsPerPlayer()) * 2;
         double maxDifference = calculateMaxDifferenceForAveragePointsBalance(high, low);
         int minDifference = 2;
         int runningDifference = 0;
@@ -318,12 +348,13 @@ public class Main {
     }
 
     /**
-     * Calcualtes the maximum difference in value that a high and low team can swap and get closer to
+     * Calculates the maximum difference in value that a high and low team can swap and get closer to
      * having more equal average points per player.
-     * @param high team with a greater average points per player
-     * @param low team with a lower average points per player
-     * @return the maximum value that can be swapped to decrease the difference between high and low teams
      *
+     * @param high team with a greater average points per player
+     * @param low  team with a lower average points per player
+     * @return the maximum value that can be swapped to decrease the difference between high and low teams
+     * <p>
      * TODO: The variables in this function could be renamed
      */
     private static double calculateMaxDifferenceForAveragePointsBalance(Team high, Team low) {
@@ -374,7 +405,7 @@ public class Main {
                 for (List<PlayerGroup> curPlayerGroup2 : globalList2.get(x)) {
                     //check that the cur pts/gender/total players  are the same
                     //Note: Even though we are balancing over Average points, because we hold #players constant we can still
-                        //compare the total points of the two player groups.
+                    //compare the total points of the two player groups.
                     if (getTotalScoreForPlayerGroupList(curPlayerGroup1) != getTotalScoreForPlayerGroupList(curPlayerGroup2)) {
                         continue;
                     }
@@ -417,7 +448,7 @@ public class Main {
      * one is more skewed, if the value is greater than 1 then team two is more skewed.
      * Being more skewed means that the players scores are more spread out,
      * for example: A team of 10, 10, 20, 20 has more skew than 12, 12, 18, 18
-     *
+     * <p>
      * To deal with teams with different amount of players the team with fewer players will act like it has additional
      * players each with their average score. This should work for most cases when teams have very similar number of
      * players, but might need to be revisited in the future.
@@ -439,25 +470,25 @@ public class Main {
             players2.addAll(playerGroup.getPlayers());
         }
 
-        for(Player player : players1){
+        for (Player player : players1) {
             playerSpreadValues.add(1.0 * player.getAggregateScore());
         }
-        for(Player player : players2){
+        for (Player player : players2) {
             playerSpreadValues.add(1.0 / player.getAggregateScore());
         }
 
         //Add extra 'players' to the team that has fewer players.
         //TODO: make the following better....
         //There are more in team 1
-        for(int x=0; x<(players1.size() - players2.size()); x++){
+        for (int x = 0; x < (players1.size() - players2.size()); x++) {
             playerSpreadValues.add(1.0 / two.getAveragePointsPerPlayer());
         }
         //There are more in team 2
-        for(int x=0; x<(players2.size() - players1.size()); x++){
+        for (int x = 0; x < (players2.size() - players1.size()); x++) {
             playerSpreadValues.add(1.0 * one.getAveragePointsPerPlayer());
         }
 
-        for(Double value: playerSpreadValues){
+        for (Double value : playerSpreadValues) {
             spread *= value;
         }
 

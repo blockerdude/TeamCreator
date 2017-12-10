@@ -57,11 +57,11 @@ public class PlayerGroup {
     }
 
     public int getNumberMales() {
-        return getSexCount(Sex.male);
+        return getSexCount(Sex.Male);
     }
 
     public int getNumberFemales() {
-        return getSexCount(Sex.female);
+        return getSexCount(Sex.Female);
     }
 
     private int getSexCount(Sex desiredSex) {
