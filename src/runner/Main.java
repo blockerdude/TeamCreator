@@ -17,18 +17,32 @@ public class Main {
 
 
     public static void main(String args[]) {
-        normalTestRun();
+        validateUserArguments(args);
+        String fileInput = args[0];
+        String fileOutput = args[1];
+        int numMales = Integer.parseInt(args[2]);
+        int numFemales = Integer.parseInt(args[3]);
+        int numTeams = Integer.parseInt(args[4]);
+        normalTestRun(fileInput, fileOutput, numTeams, numMales, numFemales);
     }
 
-    private static void normalTestRun() {
+    private static void validateUserArguments(String args[]) {
+        if(args.length != 5){
+            System.out.println("Please include five (5) input arguments");
+            System.out.println("The order should be: File input name, File output name, Number males per team, " +
+                    "number females per team, and finally the number of desired teams");
+            System.out.println("\n\nAn example command might look like this");
+            System.out.println("java -jar MUFA_Team_Creator.jar players.csv teams.txt 9 7 14");
+            System.exit(0);
+        }
+
+    }
+
+    private static void normalTestRun(String fileInput, String fileOutput, int numTeams, int numMalesPerTeam, int numFemalesPerTeam) {
         Importer importer = new Importer();
         List<PlayerGroup> baggaged = new ArrayList<>();
         List<PlayerGroup> solos = new ArrayList<>();
-        int numMalesPerTeam = 9;
-        int numFemalesPerTeam = 7;
-        int numTeams = 18;
-
-        List<PlayerGroup> groups = importer.getPlayerGroupsFromFile("TR League Anonymous.csv");
+        List<PlayerGroup> groups = importer.getPlayerGroupsFromFile(fileInput);
 
         //Split the player groups into baggaged and solo groups for sorting later
         //TODO: update the distribution to not require different sized sorting
@@ -49,7 +63,7 @@ public class Main {
 
         teams = orderTeamsByMultiplicativeScore(teams);
         Exporter exporter = new Exporter();
-        exporter.printTeamsToFile("TestOutput.txt", teams);
+        exporter.printTeamsToFile(fileOutput, teams);
     }
 
     private static Team createTeamFromFile(String fileName, int malesPerTeam, int femalesPerTeam, String name) {
@@ -218,6 +232,7 @@ public class Main {
                 //failed to add the group in, can't fit, so remove a group from the current team, and keep trying.
                 //Goal is to cycle the hard groups in and the easy ones out, hopefully it will work.
                 groups.add(team.getPlayersGroups().remove(0));
+
                 //recall this with the same team
                 addPlayerGroupToTeam(groups, team);
             }
