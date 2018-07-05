@@ -1,5 +1,6 @@
 package runner;
 
+import Balances.Balance;
 import Exceptions.DuplicatedPlayerException;
 import model.*;
 
@@ -70,6 +71,32 @@ public class Main {
         Importer importer = new Importer();
         List<PlayerGroup> playerGroupsFromFile = importer.getPlayerGroupsFromFile(fileName);
         return new Team(name, new SortedPlayerGroupArrayList<>(playerGroupsFromFile), malesPerTeam + femalesPerTeam, malesPerTeam, femalesPerTeam);
+    }
+
+    private static List<Team> balanceTeams(List<Team> teams, List<Balance> balances){
+
+
+
+
+        return null;
+    }
+
+    private static void applyBalancesToTwoTeams(Team one, Team two, List<Balance> balances){
+        //TODO: make both of these dependent on their own team size, they don't have to be the same size
+        int halfTeamSize = one.getNumberPlayers() / 2;
+
+        List<List<List<PlayerGroup>>> globalList1 = new ArrayList<>();
+        for (int x = 0; x <= halfTeamSize; x++) {
+            globalList1.add(new ArrayList<List<PlayerGroup>>());
+        }
+        getAllGroupsOfEqualAndLesserSizeForATeam(globalList1, one.getPlayersGroups(), halfTeamSize);
+
+
+        List<List<List<PlayerGroup>>> globalList2 = new ArrayList<>();
+        for (int x = 0; x <= halfTeamSize; x++) {
+            globalList2.add(new ArrayList<List<PlayerGroup>>());
+        }
+        getAllGroupsOfEqualAndLesserSizeForATeam(globalList2, two.getPlayersGroups(), halfTeamSize);
     }
 
     private static List<Team> balanceTeamsByAveragePointsPerPlayer(List<Team> teams) {

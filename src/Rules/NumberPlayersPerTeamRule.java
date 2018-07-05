@@ -15,7 +15,6 @@ public class NumberPlayersPerTeamRule implements Rule{
 
 
     public NumberPlayersPerTeamRule(int minNumberOfMales, int maxNumberOfMales, int minNumberOfFemales, int maxNumberOfFemales) {
-
         this.minNumberOfMales = minNumberOfMales;
         this.maxNumberOfMales = maxNumberOfMales;
         this.minNumberOfFemales = minNumberOfFemales;
@@ -23,10 +22,8 @@ public class NumberPlayersPerTeamRule implements Rule{
     }
 
     @Override
-    public boolean validate(Team first, Team second) {
+    public boolean validate(Team first) {
         return (first.getNumberMales() >= minNumberOfMales && first.getNumberMales() <= maxNumberOfMales) &&
-        (first.getNumberFemales() >= minNumberOfFemales && first.getNumberFemales() <= maxNumberOfFemales) &&
-        (second.getNumberMales() >= minNumberOfMales && second.getNumberMales() <= maxNumberOfMales) &&
-        (second.getNumberFemales() >= minNumberOfFemales && second.getNumberFemales() <= maxNumberOfFemales);
+        (first.getNumberFemales() >= minNumberOfFemales && first.getNumberFemales() <= maxNumberOfFemales);
     }
 }
